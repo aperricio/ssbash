@@ -71,7 +71,7 @@ if [ "$opcion" == "1" ]; then
     echo "
     La aplicación $nombre_app debería haberse instalado.  Por favor,
     comprueba el archivo desktop en ~/.local/share/applications/
-    y, tras ejecutarlo, que existe el perfil en ~/.config/SSBash/"
+    y, tras ejecutarlo, que existe el perfil en ~/.config/SSBash/."
 elif [ "$opcion" == "2" ]; then
     if [ -n "$(ls -A "$HOME/.config/SSBash/")" ]; then
         echo "¿Qué aplicación web quieres eliminar?" && ls $HOME/.config/SSBash/
