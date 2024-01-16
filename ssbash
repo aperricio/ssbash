@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "SSBash
-"
-echo "¿Qué quieres hacer?
+
+¿Qué quieres hacer?
 1. Crear aplicación web
 2. Eliminar app existente
 3. Salir"
