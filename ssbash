@@ -51,19 +51,19 @@ if [ "$opcion" == "1" ]; then
     acceso_directo=$navegador-$id_app-$cadena_aleatoria.desktop
     touch $acceso_directo
     mkdir -p "$HOME/.config/SSBash/$navegador-$id_app/img/"
-    nombre_imagen=$(basename "$icono")
-    echo "[Desktop Entry]" >> "$acceso_directo"
-    echo "Version=1.0" >> "$acceso_directo"
-    echo "Name=$nombre_app" >> "$acceso_directo"
-    echo "Comment=$comentario" >> "$acceso_directo"
-    echo "Exec=$ejecutable" >> "$acceso_directo"
     cp $icono "$HOME/.config/SSBash/$navegador-$id_app/img/"
-    echo "Icon=$HOME/.config/SSBash/$navegador-$id_app/img/$nombre_imagen" >> "$acceso_directo"
-    echo "Terminal=false" >> "$acceso_directo"
-    echo "Type=Application" >> "$acceso_directo"
-    echo "Categories=$categoria" >> "$acceso_directo"
-    echo "StartupNotify=true" >> "$acceso_directo"
-    echo "StartupWMClass=WebApp-"$id_app >> "$acceso_directo"
+    nombre_imagen=$(basename "$icono")
+    echo "[Desktop Entry]
+    Version=1.0
+    Name=$nombre_app
+    Comment=$comentario
+    Exec=$ejecutable
+    Icon=$HOME/.config/SSBash/$navegador-$id_app/img/$nombre_imagen
+    Terminal=false
+    Type=Application
+    Categories=$categoria
+    StartupNotify=true
+    StartupWMClass=WebApp-$id_app" >> "$acceso_directo"
 
     chmod +x $acceso_directo
     mv $acceso_directo ~/.local/share/applications/
