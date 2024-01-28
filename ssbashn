@@ -1,0 +1,132 @@
+#!/bin/bash
+echo "SSBash
+
+¿Qué quieres hacer?
+1. Crear aplicación web
+2. Eliminar app existente
+3. Salir"
+read opcion
+if [ "$opcion" == "1" ]; then
+    echo "Nombre de la aplicación:"
+    read nombre_app
+    id_app=$(echo "$nombre_app" | tr -d ' ')
+    echo "Comentario:"
+    read comentario
+    echo "Categoría":
+    read categoria
+    echo "URL de la aplicación web (sin https/http):"
+    read url
+    echo "Ruta al icono de la app":
+    read icono
+    nombre_imagen=$(basename "$icono")
+    echo "Navegador: 
+     1. Firefox 
+     2. Chrome 
+     3. Chromium
+     4. Brave
+     5. Edge
+     6. Vivaldi
+     7. Chrome (flatpak)
+     8. Chromium (flatpak)
+     9. Brave (flatpak)
+    10. Edge (flatpak)
+    11. Vivaldi (flatpak)
+    12. ungoogled-chromium (flatpak)"
+    read navegador_elegido
+
+    case $navegador_elegido in
+        1) navegador="Firefox" && ejecutable="sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"$HOME/.config/SSBash/$navegador-$id_app/img/$nombre_imagen\" firefox --class WebApp-$id_app --name WebApp-$id_app --profile $HOME/.config/SSBash/$navegador-$id_app --no-remote \"https://$url\"'" && firefox -CreateProfile "$navegador-$id_app $HOME/.config/SSBash/$navegador-$id_app";;
+        2) navegador="Chrome" && ejecutable="google-chrome-stable --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        3) navegador="Chromium" && ejecutable="chromium --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        4) navegador="Brave" && ejecutable="brave --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        5) navegador="Edge" && ejecutable="microsoft-edge --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        6) navegador="Vivaldi" && ejecutable="vivaldi-stable --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        7) navegador="Chrome-flatpak" && ejecutable="flatpak run com.google.Chrome --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        8) navegador="Chromium-flatpak" && ejecutable="flatpak run org.chromium.Chromium --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        9) navegador="Brave-flatpak" && ejecutable="flatpak run com.brave.Browser --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        10) navegador="Edge-flatpak" && ejecutable="flatpak run com.microsoft.Edge --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        11) navegador="Vivaldi-flatpak" && ejecutable="flatpak run com.vivaldi.Vivaldi --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        12) navegador="ungoogled-chromium-flatpak" && ejecutable="flatpak run com.github.Eloston.UngoogledChromium --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        *) echo "Opción no válida. Seleccionando Chrome por defecto." && navegador="Chrome";;
+    esac
+
+    cadena_aleatoria=$(head /dev/urandom | tr -dc a-z0-9 | head -c 30 ; echo '')
+    acceso_directo=$navegador-$id_app-$cadena_aleatoria.desktop
+    touch $acceso_directo
+    mkdir -p "$HOME/.config/SSBash/$navegador-$id_app/img/"
+    cp $icono "$HOME/.config/SSBash/$navegador-$id_app/img/"
+    echo "[Desktop Entry]
+Version=1.0
+Name=$nombre_app
+Comment=$comentario
+Exec=$ejecutable
+Icon=$HOME/.config/SSBash/$navegador-$id_app/img/$nombre_imagen
+Terminal=false
+Type=Application
+Categories=$categoria
+StartupNotify=true
+StartupWMClass=WebApp-$id_app" >> "$acceso_directo"
+
+    chmod +x $acceso_directo
+    mv $acceso_directo ~/.local/share/applications/
+
+    if [ "$navegador" == "Firefox" ]; then
+        mkdir -p "$HOME/.config/SSBash/$navegador-$id_app/chrome/"
+        ruta_js="$HOME/.config/SSBash/$navegador-$id_app/user.js"
+        touch $ruta_js
+        ruta_css="$HOME/.config/SSBash/$navegador-$id_app/chrome/userChrome.css"
+        touch $ruta_css
+
+        echo "user_pref(\"browser.cache.disk.enable\", false);
+user_pref(\"browser.cache.disk.capacity\", 0);
+user_pref(\"browser.cache.disk.filesystem_reported\", 1);
+user_pref(\"browser.cache.disk.smart_size.enabled\", false);
+user_pref(\"browser.cache.disk.smart_size.first_run\", false);
+user_pref(\"browser.cache.disk.smart_size.use_old_max\", false);
+user_pref(\"browser.ctrlTab.previews\", true);
+user_pref(\"browser.tabs.warnOnClose\", false);
+user_pref(\"plugin.state.flash\", 2);
+user_pref(\"toolkit.legacyUserProfileCustomizations.stylesheets\", true);
+user_pref(\"browser.tabs.drawInTitlebar\", false);
+user_pref(\"browser.tabs.inTitlebar\", 0);
+user_pref(\"browser.contentblocking.category\", "strict");
+user_pref(\"privacy.clearOnShutdown.offlineApps\", false);
+user_pref(\"privacy.sanitize.sanitizeOnShutdown\", false);
+user_pref(\"privacy.sanitize.timeSpan\", 1);" >> "$ruta_js"
+
+        echo "#nav-bar, #identity-box, #tabbrowser-tabs, #TabsToolbar {
+	visibility: collapse;
+}
+
+#nav-bar * {
+    visibility: visible !important;
+}
+" >> "$ruta_css"
+    fi
+
+    echo "
+    La aplicación '$nombre_app' debería haberse instalado.  Por favor,
+    comprueba el archivo desktop en ~/.local/share/applications/
+    y, tras ejecutarlo, que existe el perfil en ~/.config/SSBash/."
+elif [ "$opcion" == "2" ]; then
+    if [ -n "$(ls -A "$HOME/.config/SSBash/")" ]; then
+        echo "¿Qué aplicación web quieres eliminar?" && ls $HOME/.config/SSBash/
+        read app_eliminar
+        if [ -n "$app_eliminar" ] && [ -e "$HOME/.config/SSBash/$app_eliminar" ]; then
+            desktop_eliminar=$(echo "$app_eliminar" | tr -d ' ')
+            rm -rf $HOME/.config/SSBash/"$app_eliminar"/
+            rm $HOME/.local/share/applications/$desktop_eliminar*
+            echo "La aplicación con id '$app_eliminar' ha sido eliminada."
+        else
+            echo "La apliación con id '$app_eliminar' no está en la lista."
+        fi
+    else
+        echo "No hay aplicaciones web instaladas."
+    fi
+elif [ "$opcion" == "3" ]; then
+    echo "Hasta la próxima."
+else
+    echo "Opción no válida".
+fi
+
+
