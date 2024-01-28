@@ -20,19 +20,19 @@ if [ "$opcion" == "1" ]; then
     read icono
     nombre_imagen=$(basename "$icono")
     echo "Navegador: 
-     1. Firefox 
-     2. Chrome 
-     3. Chromium
-     4. Brave
-     5. Edge
-     6. Vivaldi
-     7. Firefox (flatpak)
-     8. Chrome (flatpak)
-     9. Chromium (flatpak)
-    10. Brave (flatpak)
-    11. Edge (flatpak)
-    12. Vivaldi (flatpak)
-    13. ungoogled-chromium (flatpak)"
+ 1. Firefox 
+ 2. Chrome 
+ 3. Chromium
+ 4. Brave
+ 5. Edge
+ 6. Vivaldi
+ 7. Firefox (flatpak)
+ 8. Chrome (flatpak)
+ 9. Chromium (flatpak)
+10. Brave (flatpak)
+11. Edge (flatpak)
+12. Vivaldi (flatpak)
+13. ungoogled-chromium (flatpak)"
     read navegador_elegido
 
     case $navegador_elegido in
@@ -107,9 +107,9 @@ user_pref(\"privacy.sanitize.timeSpan\", 1);" >> "$ruta_js"
     fi
 
     echo "
-    La aplicación '$nombre_app' debería haberse instalado.  Por favor,
-    comprueba el archivo desktop en ~/.local/share/applications/
-    y, tras ejecutarlo, que existe el perfil en ~/.config/SSBash/."
+La aplicación '$nombre_app' debería haberse instalado.  Por favor,
+comprueba el archivo desktop en ~/.local/share/applications/
+y, tras ejecutarlo, que existe el perfil en ~/.config/SSBash/."
 elif [ "$opcion" == "2" ]; then
     if [ -n "$(ls -A "$HOME/.config/SSBash/")" ]; then
         echo "¿Qué aplicación web quieres eliminar?" && ls $HOME/.config/SSBash/
@@ -118,9 +118,10 @@ elif [ "$opcion" == "2" ]; then
             desktop_eliminar=$(echo "$app_eliminar" | tr -d ' ')
             rm -rf $HOME/.config/SSBash/"$app_eliminar"/
             rm $HOME/.local/share/applications/$desktop_eliminar*
-            echo "La aplicación con id '$app_eliminar' ha sido eliminada.
-            Si era basada en Firefox, elimina manualmente el perfil desde
-            about:config."
+            echo "
+La aplicación con id '$app_eliminar' ha sido eliminada.
+Si era basada en Firefox, elimina manualmente el perfil 
+desde about:config."
         else
             echo "La apliación con id '$app_eliminar' no está en la lista."
         fi
