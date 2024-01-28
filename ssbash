@@ -26,12 +26,13 @@ if [ "$opcion" == "1" ]; then
      4. Brave
      5. Edge
      6. Vivaldi
-     7. Chrome (flatpak)
-     8. Chromium (flatpak)
-     9. Brave (flatpak)
-    10. Edge (flatpak)
-    11. Vivaldi (flatpak)
-    12. ungoogled-chromium (flatpak)"
+     7. Firefox (flatpak)
+     8. Chrome (flatpak)
+     9. Chromium (flatpak)
+    10. Brave (flatpak)
+    11. Edge (flatpak)
+    12. Vivaldi (flatpak)
+    13. ungoogled-chromium (flatpak)"
     read navegador_elegido
 
     case $navegador_elegido in
@@ -41,12 +42,13 @@ if [ "$opcion" == "1" ]; then
         4) navegador="Brave" && ejecutable="brave --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
         5) navegador="Edge" && ejecutable="microsoft-edge --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
         6) navegador="Vivaldi" && ejecutable="vivaldi-stable --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
-        7) navegador="Chrome-flatpak" && ejecutable="flatpak run com.google.Chrome --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
-        8) navegador="Chromium-flatpak" && ejecutable="flatpak run org.chromium.Chromium --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
-        9) navegador="Brave-flatpak" && ejecutable="flatpak run com.brave.Browser --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
-        10) navegador="Edge-flatpak" && ejecutable="flatpak run com.microsoft.Edge --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
-        11) navegador="Vivaldi-flatpak" && ejecutable="flatpak run com.vivaldi.Vivaldi --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
-        12) navegador="ungoogled-chromium-flatpak" && ejecutable="flatpak run com.github.Eloston.UngoogledChromium --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        7) navegador="Firefox-flatpak" && ejecutable="sh -c 'flatpak run org.mozilla.firefox --class WebApp-$id_app --name WebApp-$id_app --profile $HOME/.config/SSBash/$navegador-$id_app --no-remote \"https://$url\"'" && firefox -CreateProfile "$navegador-$id_app $HOME/.config/SSBash/$navegador-$id_app";;
+        8) navegador="Chrome-flatpak" && ejecutable="flatpak run com.google.Chrome --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        9) navegador="Chromium-flatpak" && ejecutable="flatpak run org.chromium.Chromium --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        10) navegador="Brave-flatpak" && ejecutable="flatpak run com.brave.Browser --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        11) navegador="Edge-flatpak" && ejecutable="flatpak run com.microsoft.Edge --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        12) navegador="Vivaldi-flatpak" && ejecutable="flatpak run com.vivaldi.Vivaldi --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
+        13) navegador="ungoogled-chromium-flatpak" && ejecutable="flatpak run com.github.Eloston.UngoogledChromium --app="https://$url" --class=WebApp-$id_app --name=WebApp-$id_app --user-data-dir=$HOME/.config/SSBash/$navegador-'$id_app'";;
         *) echo "Opción no válida. Seleccionando Chrome por defecto." && navegador="Chrome";;
     esac
 
